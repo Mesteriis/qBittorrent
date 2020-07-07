@@ -117,8 +117,7 @@ class SGMLParser(_markupbase.ParserBase):
                 i = n
                 break
             match = interesting.search(rawdata, i)
-            if match: j = match.start()
-            else: j = n
+            j = match.start() if match else n
             if i < j:
                 self.handle_data(rawdata[i:j])
             i = j
@@ -519,11 +518,7 @@ def test(args = None):
     else:
         klass = TestSGMLParser
 
-    if args:
-        file = args[0]
-    else:
-        file = 'test.html'
-
+    file = args[0] if args else 'test.html'
     if file == '-':
         f = sys.stdin
     else:

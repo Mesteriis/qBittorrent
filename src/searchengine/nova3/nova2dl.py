@@ -32,7 +32,7 @@ import os
 import glob
 from helpers import download_file
 
-supported_engines = dict()
+supported_engines = {}
 
 engines = glob.glob(os.path.join(os.path.dirname(__file__), 'engines', '*.py'))
 for engine in engines:
