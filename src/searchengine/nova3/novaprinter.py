@@ -63,5 +63,5 @@ def anySizeToBytes(size_string):
     # convert
     units_dict = {'T': 40, 'G': 30, 'M': 20, 'K': 10}
     if short_unit in units_dict:
-        size = size * 2**units_dict[short_unit]
+        size *= 2**units_dict[short_unit]
     return int(size)

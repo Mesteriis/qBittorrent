@@ -62,7 +62,7 @@ def processTranslation(filename, sources):
     except Exception:
         print('\tFailed to parse %s!' % (os.path.normpath(filename)))
         return
-    
+
     root = tree.getroot()
     for context in root.findall('context'):
         context_name = context.find('name').text
@@ -70,18 +70,18 @@ def processTranslation(filename, sources):
         if not has_context and no_obsolete:
             root.remove(context)
             continue
-        
+
         for message in context.findall('message'):
             for location in message.findall('location'):
                 message.remove(location)
-                
+
             source = message.find('source').text
             translation = message.find('translation')
             if has_context and source in sources[context_name]:
                 sources[context_name].remove(source)
-                    
+
                 trtype = translation.attrib.get('type')
-                if (trtype == 'obsolete') or (trtype == 'vanished'):
+                if trtype in ['obsolete', 'vanished']:
                     del translation.attrib['type'] # i.e. finished
             else:
                 if no_obsolete or (translation.attrib.get('type', '') == 'unfinished'):
@@ -118,13 +118,13 @@ def processTranslation(filename, sources):
         context.find('./name').tail = '\n' + indent
         messages = context.findall('./message')
         if len(messages) == 0: continue
-        
+
         for message in messages:
             message.text = '\n' + (indent * 2)
             message.tail = '\n' + indent
             elems = message.findall('./')
             if len(elems) == 0: continue
-            
+
             for elem in elems:
                 elem.tail = '\n' + (indent * 2)
             elems[-1:][0].tail = '\n' + indent
